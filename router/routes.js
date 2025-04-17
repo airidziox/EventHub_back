@@ -5,6 +5,9 @@ const {
     register,
     login,
     createEvent,
+    allEvents,
+    singleEvent,
+    editEvent
 } = require('../controllers/mainControllers');
 
 const {
@@ -18,6 +21,8 @@ const userAuth = require('../middleware/userAuth');
 router.post("/register", validateRegistration, register)
 router.post("/login", validateLogin, login)
 router.post("/create", userAuth, validateEvent, createEvent)
-// router.get("/allPosts", userAuth, allPosts)
+router.get("/allEvents", userAuth, allEvents)
+router.get("/event/:id", userAuth, singleEvent)
+router.post("/edit/:id", userAuth, editEvent)
 
 module.exports = router;

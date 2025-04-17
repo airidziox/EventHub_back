@@ -40,7 +40,7 @@ module.exports = {
         const samePassword = await bcrypt.compare(password, userExists.password);
         if (!samePassword) return res.send({error: true, message: "Username or password is invalid."});
 
-        let user = {
+        const user = {
             _id: userExists._id,
             username: userExists.username,
             password: userExists.password,
@@ -77,5 +77,37 @@ module.exports = {
         const events = await eventSchema.find()
 
         res.send({error: false, message: "Event created successfully!", events});
-    }
+    },
+    allEvents: async (req, res) => {
+        const events = await eventSchema.find()
+
+        res.send(events)
+    },
+    singleEvent: async (req, res) => {
+        const eventId = req.params.id
+        const event = await eventSchema.findOne({_id: eventId})
+
+        res.send(event)
+    },
+    editEvent: async (req, res) => {
+        const {title, description, location, date, time, seats, image} = req.body;
+        const eventId = req.params.id
+
+        const is_image = await isImageURL(image);
+        if (!is_image) {
+            return res.send({error: true, message: "Image link is invalid."});
+        }
+
+        await eventSchema.findOneAndUpdate(
+            {_id: eventId},
+            {
+                $set: {
+                    title, description, location, date, time, seats, image
+                }
+            }
+        )
+
+        const events = await eventSchema.find()
+        return res.send({error: false, message: "Event updated!", events})
+    },
 }

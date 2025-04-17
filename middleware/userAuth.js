@@ -8,7 +8,7 @@ module.exports = (req, res, next) => {
         if (err) return res.send({error: true, message: "Error opening token."});
         if (!item) return res.send({error: true, message: "Token item not found"});
 
-        req.body.user = item
+        req.user = item
 
         next()
     })
