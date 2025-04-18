@@ -52,7 +52,7 @@ module.exports = {
         return res.send({error: false, message: "Logged in successfully!", token: token, user})
     },
     createEvent: async (req, res) => {
-        const {authorId, username, title, description, location, date, time, seats, image} = req.body;
+        const {authorId, username, title, description, location, date, time, seats, image, category} = req.body;
 
         const is_image = await isImageURL(image);
         if (!is_image) {
@@ -69,6 +69,7 @@ module.exports = {
             time,
             seats,
             image,
+            category
         }
 
         const newEvent = new eventSchema(event)
@@ -90,7 +91,7 @@ module.exports = {
         res.send(event)
     },
     editEvent: async (req, res) => {
-        const {title, description, location, date, time, seats, image} = req.body;
+        const {title, description, location, date, time, seats, image, category} = req.body;
         const eventId = req.params.id
 
         const is_image = await isImageURL(image);
@@ -102,7 +103,7 @@ module.exports = {
             {_id: eventId},
             {
                 $set: {
-                    title, description, location, date, time, seats, image
+                    title, description, location, date, time, seats, image, category
                 }
             }
         )
