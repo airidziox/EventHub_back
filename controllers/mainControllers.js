@@ -111,4 +111,13 @@ module.exports = {
         const events = await eventSchema.find()
         return res.send({error: false, message: "Event updated!", events})
     },
+    deleteEvent: async (req, res) => {
+        const eventId = req.params.id
+
+        const eventExists = await eventSchema.findOneAndDelete({_id: eventId})
+        if (!eventExists) return res.send({error: true, message: "Event does not exist!"})
+
+        const events = await eventSchema.find()
+        return res.send({error: false, message: "Event deleted!", events})
+    },
 }

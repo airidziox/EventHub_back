@@ -7,7 +7,8 @@ const {
     createEvent,
     allEvents,
     singleEvent,
-    editEvent
+    editEvent,
+    deleteEvent
 } = require('../controllers/mainControllers');
 
 const {
@@ -24,5 +25,6 @@ router.post("/create", userAuth, validateEvent, createEvent)
 router.get("/allEvents", userAuth, allEvents)
 router.get("/event/:id", userAuth, singleEvent)
 router.post("/edit/:id", userAuth, editEvent)
+router.post("/delete/:id", userAuth, deleteEvent)
 
 module.exports = router;
